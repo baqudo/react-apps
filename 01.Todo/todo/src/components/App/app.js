@@ -47,22 +47,8 @@ export default class App extends Component {
     })
   }
 
-  onToggleDone = (id) => {
-    console.log('onToggleDone', id);
-
-    this.setState(({ todos }) => {
-      const idx = todos.findIndex(el => el.id === id);
-      const arr = todos.slice();
-      arr[idx].done = !arr[idx].done;
-
-      return {
-        todos: arr
-      }
-    })
-  }
-  onToggleImportant = (id) => {
-    console.log('onToggleImportant', id);
-
+  toggleTodoProperty({ id, propName }) {
+    console.log('toggleStateProperty', {id, propName});
     this.setState(({ todos }) => {
       const idx = todos.findIndex(el => el.id === id);
       const item = todos[idx];
@@ -72,12 +58,19 @@ export default class App extends Component {
           ...todos.slice(0, idx),
           {
             ...item,
-            important: !item.important
+            [propName]: !item[propName]
           },
           ...todos.slice(idx + 1)
         ]
       }
     })
+  }
+
+  onToggleDone = (id) => {
+    this.toggleTodoProperty({ id, propName: 'done' });
+  }
+  onToggleImportant = (id) => {
+    this.toggleTodoProperty({ id, propName: 'important' });
   }
 
 
