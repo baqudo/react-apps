@@ -25,7 +25,7 @@ export default class TodoListItem extends Component {
 
 
     render() {
-        const { label } = this.props;
+        const { label, onDeleted } = this.props;
         const { done, important } = this.state;
         
         let classNames = "todo-list-item d-flex align-items-center";
@@ -41,7 +41,9 @@ export default class TodoListItem extends Component {
                 >{ label }</span>
                 
                 <div className="todo-list-item__buttons ml-auto">
-                    <button type="button" className="btn btn-outline-danger btn-sm mr-2">
+                    <button type="button" className="btn btn-outline-danger btn-sm mr-2"
+                        onClick={ onDeleted }
+                    >
                         <i className="fa fa-trash-o" />
                     </button>
                     <button type="button" className="btn btn-outline-success btn-sm"
