@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import './TodoListAdd.scss';
+import './TodoAddItem.scss';
 
-export default class TodoListAdd extends Component {
+export default class TodoAddItem extends Component {
     state = {
         label: ''
     }
@@ -12,18 +12,16 @@ export default class TodoListAdd extends Component {
 
     onSubmit = (e) => {
         e.preventDefault();
+        if (this.state.label.length < 1) return;
+
         this.props.onAdd(this.state.label);
         this.setState({ label: '' });
     }
 
     render() {
-        const { onAdd } = this.props;
-
-        let classNames = "todo-list-add d-flex align-items-center mt-3";
-
         return (
             <form
-                className={classNames}
+                className="todo-list-add d-flex align-items-center mt-3"
                 onSubmit={ this.onSubmit }
             >
                 <div className="todo-list-add__field">

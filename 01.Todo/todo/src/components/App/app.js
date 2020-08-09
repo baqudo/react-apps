@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 
 import AppHeader from '../AppHeader';
-import TodoPanel from '../TodoPanel';
+import TodoSearch from '../TodoSearch';
+import TodoFilter from '../TodoFilter';
 import TodoList from '../TodoList';
-import TodoListAdd from '../TodoListAdd';
+import TodoAddItem from '../TodoAddItem';
 import './app.scss';
 
 export default class App extends Component {
@@ -85,43 +86,61 @@ export default class App extends Component {
     })
   }
 
+  search(list, search) {
+    if (search === '') return list;
+    return list.filter(item => item.label.toLowerCase().includes(search.toLowerCase()));
+  }
+
+  filter(list, filter) {
+    switch(filter) {
+      case 'done':
+        return list.filter(item => item.done)
+      case 'active':
+        return list.filter(item => !item.done)
+      default:
+        return list;
+    }
+  }
 
   render() {
     const { todos, search, filter } = this.state;
     const doneCount = todos.filter(item => item.done).length;
     const todoCount = todos.length - doneCount;
     
-    let list = todos.slice();
-    if (filter === 'done') {
-      list = list.filter(item => item.done)
-    } else if ( filter === 'active' ) {
-      list = list.filter(item => !item.done)
-    }
-    
-    if (search !== '') {
-      list = list.filter(item => item.label.toLowerCase().includes(search.toLowerCase()))
-    }
-
+    const filteredTodos = this.filter(
+      this.search(todos, search),
+      filter
+    );
 
     return (
       <div className="app container">
         <AppHeader todo={todoCount} done={doneCount}/>
 
-        <TodoPanel
-          filter={this.state.filter}
-          filters={this.state.filters}
-          onSearch={ this.onSearch }
-          onFilterUpdate={ this.onFilterUpdate }
-        />
+        <div className="search-panel py-3">
+          <div className="row justify-content-between">
+              <div className="col">
+                <TodoSearch
+                  onSearch={this.onSearch}
+                />
+              </div>
+              <div className="col">
+                <TodoFilter 
+                  filter={this.state.filter}
+                  filters={this.state.filters}
+                    onFilterUpdate={ this.onFilterUpdate }
+                />
+              </div>
+          </div>
+        </div>
 
         <TodoList
-          todos={list}
+          todos={filteredTodos}
           onDeleted={ this.onDeleteItem }
           onToggleImportant={ this.onToggleImportant }
           onToggleDone={ this.onToggleDone }
         />
 
-        <TodoListAdd 
+        <TodoAddItem 
           onAdd={ this.onAddItem }
         />
       </div>
