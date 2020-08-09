@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import AppHeader from '../AppHeader';
-import SearchPanel from '../SearchPanel';
+import TodoPanel from '../TodoPanel';
 import TodoList from '../TodoList';
 import TodoListAdd from '../TodoListAdd';
 import './app.scss';
@@ -11,6 +11,9 @@ export default class App extends Component {
   idCounter = 1;
 
   state = {
+    search: '',
+    filter: 'all',
+    filters: ['all', 'active', 'done'],
     todos: [
       this.createTodoItem("Drink Tea"),
       this.createTodoItem("Drink Coffee"),
@@ -73,19 +76,46 @@ export default class App extends Component {
     this.toggleTodoProperty({ id, propName: 'important' });
   }
 
+  onSearch = (value) => {
+    this.setState({ search: value })
+  }
+  onFilterUpdate = (name) => {
+    this.setState({
+      filter: name
+    })
+  }
 
 
   render() {
-    const { todos } = this.state;
+    const { todos, search, filter } = this.state;
     const doneCount = todos.filter(item => item.done).length;
     const todoCount = todos.length - doneCount;
+    
+    let list = todos.slice();
+    if (filter === 'done') {
+      list = list.filter(item => item.done)
+    } else if ( filter === 'active' ) {
+      list = list.filter(item => !item.done)
+    }
+    
+    if (search !== '') {
+      list = list.filter(item => item.label.toLowerCase().includes(search.toLowerCase()))
+    }
+
 
     return (
       <div className="app container">
         <AppHeader todo={todoCount} done={doneCount}/>
-        <SearchPanel />
+
+        <TodoPanel
+          filter={this.state.filter}
+          filters={this.state.filters}
+          onSearch={ this.onSearch }
+          onFilterUpdate={ this.onFilterUpdate }
+        />
+
         <TodoList
-          todos={todos}
+          todos={list}
           onDeleted={ this.onDeleteItem }
           onToggleImportant={ this.onToggleImportant }
           onToggleDone={ this.onToggleDone }
