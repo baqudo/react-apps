@@ -2,32 +2,16 @@ import React, { Component } from 'react';
 import './TodoListItem.scss';
 
 export default class TodoListItem extends Component {
-
-    state = {
-        done: false,
-        important: false
-    }
-
-    onLabelClick = () => {
-        this.setState(({ done }) => {
-           return {
-               done: !done
-           }
-        })
-    }
-    onImportantClick = () => {
-        this.setState(({ important }) => {
-            return {
-                important: !important
-            }
-        })
-    }
-
-
     render() {
-        const { label, onDeleted } = this.props;
-        const { done, important } = this.state;
-        
+        const { 
+            label,
+            done,
+            important,
+            onDeleted,
+            onToggleDone,
+            onToggleImportant
+        } = this.props;
+
         let classNames = "todo-list-item d-flex align-items-center";
         if (done) classNames += ' is-done';
         if (important) classNames += ' is-important'
@@ -37,7 +21,7 @@ export default class TodoListItem extends Component {
                 className={classNames}
             >
                 <span className="todo-list-item__label"
-                    onClick={ this.onLabelClick }
+                    onClick={ onToggleDone }
                 >{ label }</span>
                 
                 <div className="todo-list-item__buttons ml-auto">
@@ -47,7 +31,7 @@ export default class TodoListItem extends Component {
                         <i className="fa fa-trash-o" />
                     </button>
                     <button type="button" className="btn btn-outline-success btn-sm"
-                        onClick={ this.onImportantClick }
+                        onClick={ onToggleImportant }
                     >
                         <i className="fa fa-exclamation" />
                     </button>
