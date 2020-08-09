@@ -3,7 +3,7 @@ import React from 'react';
 import AppHeader from '../AppHeader';
 import SearchPanel from '../SearchPanel';
 import TodoList from '../TodoList';
-import './app.css';
+import './app.scss';
 
 const App = () => {
     const TODO_DATA = [

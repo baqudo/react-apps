@@ -1,0 +1,12 @@
+.todo-list-item {
+    &.is-done {
+        text-decoration: line-through;
+    }
+    &.is-important {
+        font-weight: bold;
+        color: steelblue;
+    }
+    .btn {
+        min-width: 2rem;
+    }
+}
