@@ -1,0 +1,14 @@
+.random-planet {
+  img {
+    max-width: 100%;
+  }
+
+  .label {
+    &:first-letter {
+      text-transform: uppercase;
+    }
+  }
+  .value {
+    font-weight: 700;
+  }
+}
