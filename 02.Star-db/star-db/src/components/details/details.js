@@ -64,19 +64,25 @@ const DetailsView = ({ person }) => {
     return (
         <React.Fragment>
             <h3 className="card-header">{ name }</h3>
-            <div className="card-body d-flex">
-                <img className="details__img rounded mr-2" src={`${process.env.REACT_APP_ASSETS_URL}/img/characters/${id}.jpg`} alt={name} />
+            <div className="card-body">
+                <div className="row">
+                    <div className="col-12 col-md-5 details__img">
+                        <img className="rounded" src={`${process.env.REACT_APP_ASSETS_URL}/img/characters/${id}.jpg`} alt={name} />
+                    </div>
 
-                <ul className="details__list list-group list-group-flush rounded">
-                    { keys.map(key => {
-                        return (
-                            <li className="list-group-item d-flex justify-content-between" key={key}>
-                                <span className="label">{toDefaultText(key)}:</span>
-                                <span className="value">{person[key]}</span>
-                            </li>
-                        )
-                    })}
-                </ul>
+                    <div className="col-12 col-md-7">
+                        <ul className="details__list list-group list-group-flush rounded">
+                            { keys.map(key => {
+                                return (
+                                    <li className="list-group-item d-flex justify-content-between" key={key}>
+                                        <span className="label">{toDefaultText(key)}:</span>
+                                        <span className="value">{person[key]}</span>
+                                    </li>
+                                )
+                            })}
+                        </ul>
+                    </div>
+                </div>
             </div>
         </React.Fragment>
     )

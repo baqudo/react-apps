@@ -1,9 +1,7 @@
 .details {
   &__img {
-    flex-grow: 1;
-    max-width: 50%;
-  }
-  &__list {
-    flex-grow: 1;
+    img {
+      max-width: 100%;
+    }
   }
 }
