@@ -10,7 +10,9 @@ export default class Details extends Component {
         this.updatePerson(this.props.currentPerson)
     }
     componentDidUpdate(prevProps, prevState) {
-        this.updatePerson(this.props.currentPerson)
+        if(this.props.currentPerson !== prevProps.currentPerson) {
+            this.updatePerson(this.props.currentPerson)
+        }
     }
     
 
