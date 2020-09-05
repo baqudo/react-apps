@@ -11,9 +11,8 @@ const API = {
   async get(url) {
     const { data } = await $axios.get(url);
 
-    const transformedData = {
-      id: matchId(data.url)
-    };
+    const transformedData = {};
+    if (data.url) transformedData.id = matchId(data.url)
     
     Object.keys(data).forEach(key => {
         const newKey = toCamelCase(key);

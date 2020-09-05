@@ -2,6 +2,7 @@ import React from 'react';
 import Header from '../header';
 import RandomPlanet from '../random-planet';
 import Details from '../details';
+import List from '../list';
 import './app.scss';
 
 const App = () => {
@@ -12,7 +13,7 @@ const App = () => {
                 <RandomPlanet />
                 <div className="row">
                     <div className="col-12 col-md-6">
-
+                        <List />
                     </div>
                     <div className="col-12 col-md-6">
                         <Details />

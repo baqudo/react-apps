@@ -1,4 +1,5 @@
 export default (url) => {
     const regExp = /\/([0-9]*)\/$/;
-    return url.match(regExp)[1];
+    const match = url.match(regExp);
+    return match ? match[1] : null;
 }

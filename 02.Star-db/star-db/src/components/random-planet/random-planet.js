@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { API, toDefaultText } from '../../services';
-
+import { API } from '../../services';
+import Spinner from '../spinner';
 import './random-planet.scss';
 
 export default class RandomPlanet extends Component {
@@ -10,42 +10,72 @@ export default class RandomPlanet extends Component {
     };
 
     state = {
+        loading: true,
         planet: {}
     }
 
     async init() {
-        const id = Math.floor(Math.random() * 30) + 2;
-        const data = await API.get(`planets/${id}/`);
+        const id = Math.floor(Math.random() * 20) + 2;
+        const {
+            name,
+            population,
+            rotationPeriod,
+            orbitalPeriod,
+            diameter
+        } = await API.get(`planets/${id}/`);
 
-        console.log({ data });
         this.setState({
-            planet: data
+            planet: {
+                id,
+                name,
+                population,
+                rotationPeriod,
+                orbitalPeriod,
+                diameter
+            },
+            loading: false
         })
     }
     render() {
-        const { planet } = this.state;
-        const keys = Object.keys(planet);
+        const { planet, loading } = this.state;
 
         return (
             <div className="random-planet jumbotron my-3 p-3">
-                <div className="row">
-                    <div className="col-12 col-md-4 rounded random-planet__img">
-                        <img className="rounded" src={`${process.env.REACT_APP_ASSETS_URL}/img/planets/${planet.id}.jpg`} alt={planet.name} />
-                    </div>
-                    <div className="col-12 col-md-8 random-planet__content">
-                        <ul className="list-group list-group-flush rounded">
-                            { keys.map(key => {
-                                return (
-                                    <li className="list-group-item d-flex justify-content-between" key={key}>
-                                        <span className="label">{toDefaultText(key)}</span>
-                                        <span className="value">{planet[key]}</span>
-                                    </li>
-                                )
-                            }) }
-                        </ul>
-                    </div>
-                </div>
+                {loading ? <Spinner /> : <PlanetView planet={planet}/>}
             </div>
         )
     }
+}
+
+const PlanetView = ({ planet }) => {
+    const { id, name, population, rotationPeriod, orbitalPeriod, diameter } = planet;
+    return (
+        <React.Fragment>
+            <div className="row">
+                <div className="col-12 col-md-4 rounded random-planet__img">
+                    <img className="rounded" src={`${process.env.REACT_APP_ASSETS_URL}/img/planets/${id}.jpg`} alt={name} />
+                </div>
+                <div className="col-12 col-md-8 random-planet__content">
+                    <ul className="list-group list-group-flush rounded">
+                        <li className="list-group-item d-flex justify-content-between">
+                            <span className="label">Population:</span>
+                            <span className="value">{population}</span>
+                        </li>
+                        <li className="list-group-item d-flex justify-content-between">
+                            <span className="label">Rotation Period:</span>
+                            <span className="value">{rotationPeriod} days</span>
+                        </li>
+                        <li className="list-group-item d-flex justify-content-between">
+                            <span className="label">Orbital Period:</span>
+                            <span className="value">{orbitalPeriod} days</span>
+                        </li>
+                        <li className="list-group-item d-flex justify-content-between">
+                            <span className="label">Diameter:</span>
+                            <span className="value">{diameter} km</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </React.Fragment>
+    )
 }
