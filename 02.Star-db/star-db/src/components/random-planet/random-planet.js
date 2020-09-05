@@ -4,17 +4,17 @@ import Spinner from '../spinner';
 import './random-planet.scss';
 
 export default class RandomPlanet extends Component {
-    constructor() {
-        super();
-        this.init()
-    };
+    componentDidMount() {
+        this.updatePlanet();
+        this.interval = setInterval(this.updatePlanet, 10000);
+    }
 
     state = {
         loading: true,
         planet: {}
     }
 
-    async init() {
+    updatePlanet = async () => {
         const id = Math.floor(Math.random() * 20) + 2;
         const {
             name,

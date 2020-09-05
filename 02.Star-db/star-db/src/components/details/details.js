@@ -5,10 +5,14 @@ import Spinner from '../spinner';
 import './details.scss';
 
 export default class Details extends Component {
-    constructor() {
-        super();
-        this.init(1)
-    };
+
+    componentDidMount() {
+        this.updatePerson(this.props.currentPerson)
+    }
+    componentDidUpdate(prevProps, prevState) {
+        this.updatePerson(this.props.currentPerson)
+    }
+    
 
     state = {
         type: 'people',
@@ -16,7 +20,9 @@ export default class Details extends Component {
         person: {}
     }
 
-    async init(reqId) {
+    async updatePerson(reqId) {
+        if (!reqId) return;
+
         const {
             id,
             birthYear,

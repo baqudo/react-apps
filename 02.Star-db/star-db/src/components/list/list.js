@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { API } from '../../services';
+import { API, matchId } from '../../services';
 import Spinner from '../spinner';
 
-export default class Details extends Component {
+export default class List extends Component {
     constructor() {
         super();
         this.init()
@@ -15,34 +15,54 @@ export default class Details extends Component {
 
     async init() {
         const data = await API.get('people');
-        console.log({ data });
+        const people = data.results.map(person => {
+            return {
+                ...person,
+                id: matchId(person.url)
+            }
+        });
+
         this.setState({
             loading: false,
-            people: data.results
+            people
         })
     }
 
 
     render() {
         const { people, loading } = this.state;
+        if (loading) return (<Spinner />);
+
         return (
             <ul className="list-group list-group-flush rounded">
-                { loading ? <Spinner /> : <ListView people={people}/>}
+                { people.map((person) => {
+                    return (
+                        <li className="person-item list-group-item d-flex justify-content-between"
+                            key={person.id}
+                            onClick={() => this.props.onItemClick(person.id)}
+                        >
+                            <span className="label">{ person.name }</span>
+                        </li>
+                    )
+                }) }
             </ul>
         )
     }
 }
 
-const ListView = ({ people }) => {
-    return (
-        <React.Fragment>
-            { people.map((person, idx) => {
-                return (
-                    <li className="list-group-item d-flex justify-content-between" key={idx}>
-                        <span className="label">{ person.name }</span>
-                    </li>
-                )
-            }) }
-        </React.Fragment>
-    )
-}
+// const ListView = ({ people }) => {
+//     return (
+//         <React.Fragment>
+//             { people.map((person) => {
+//                 return (
+//                     <li className="list-group-item d-flex justify-content-between"
+//                         key={person.id}
+//                         onClick={this.props.onItemClick(person.id)}
+//                     >
+//                         <span className="label">{ person.name }</span>
+//                     </li>
+//                 )
+//             }) }
+//         </React.Fragment>
+//     )
+// }
