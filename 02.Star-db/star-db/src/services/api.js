@@ -32,41 +32,53 @@ export default class API {
     return transformedData;
   }
 
-  transformItem(item) {
-    return {
-      ...item,
-      id: matchId(item.url)
-    }
+  addItemId(item) {
+    item.id = matchId(item.url)
+    return item;
+  }
+
+  addImageUrl(item, path) {
+    item.imgUrl = `${process.env.REACT_APP_ASSETS_URL}/img/${path}/${item.id}.jpg`
+    return item;
   }
 
   getAllPeople = async () => {
     const { data } = await $axios.get('people');
-    return data.results.map(item => this.transformedData(this.transformItem(item)));
+    return data.results.map(item => this.transformedData(this.addItemId(item)));
   }
 
   getPerson = async (id) => {
-    const { data } = await $axios.get(`people/${id}`);
-    console.log({ data });
-    return data.results.map(this.transformItem);
+    let { data } = await $axios.get(`people/${id}`);
+    data = this.transformedData(data);
+    data = this.addItemId(data);
+    data = this.addImageUrl(data, 'characters');
+    return data;
   }
 
   getAllPlanets = async () => {
     const { data } = await $axios.get('planets');
-    return data.results.map(this.transformItem);
+    return data.results.map(this.addItemId);
   }
 
   getPlanet = async (id) => {
-    const { data } = await $axios.get(`planets/${id}`);
-    return data.results.map(this.transformItem);
+    let { data } = await $axios.get(`planets/${id}`);
+    data = this.transformedData(data);
+    data = this.addItemId(data);
+    data = this.addImageUrl(data, 'planets');
+    return data;
   }
 
   getAllStarships = async () =>{
     const { data } = await $axios.get('starships');
-    return data.results.map(this.transformItem);
+    return data.results.map(this.addItemId);
   }
+
   getStarship = async (id) => {
-    const { data } = await $axios.get(`starships/${id}`);
-    return data.results.map(this.transformItem);
+    let { data } = await $axios.get(`starships/${id}`);
+    data = this.transformedData(data);
+    data = this.addItemId(data);
+    data = this.addImageUrl(data, 'starships');
+    return data;
   }
 
 };

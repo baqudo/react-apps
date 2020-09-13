@@ -37,10 +37,10 @@ export default class Details extends Component {
     }
 
     async updateDetails() {
-        const {type, id} = this.props;
+        const {type, id, getData} = this.props;
 
-        const data = await APIService.get(`${type}/${id}`);
-
+        const data = getData ? await getData(id) : await APIService.get(`${type}/${id}`);
+        console.log({ data });
         this.setState({
             loading: false,
             details: data
@@ -72,16 +72,17 @@ export default class Details extends Component {
 
 
 const DetailsView = ({ details, imgPath }) => {
-    const { name, id, ...rest } = details;
+    const { name, id, imgUrl, ...rest } = details;
     const keys = Object.keys(rest);
     
+    console.log({ name, id, imgUrl });
     return (
         <React.Fragment>
             <h3 className="card-header">{ name }</h3>
             <div className="card-body">
                 <div className="row">
                     <div className="col-12 col-md-5 details__img">
-                        <img className="rounded" src={`${process.env.REACT_APP_ASSETS_URL}/img/${imgPath}/${id}.jpg`} alt={name} />
+                        <img className="rounded" src={imgUrl} alt={name} />
                     </div>
 
                     <div className="col-12 col-md-7">

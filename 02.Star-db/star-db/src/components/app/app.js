@@ -27,46 +27,28 @@ export default class App extends Component {
     render() {
         const { currentPerson, currentType } = this.state;
 
-        // const peopleList = (
-        //     <List
-        //         onItemClick={id => this.onSelection(id, 'people')}
-        //         getData={APIService.getAllPeople}
-        //     >
-        //         { (i) => (<span>{i.name} ({i.gender}, {i.birthYear})</span>) }
-        //     </List>
-        // )
-        // const details = (
-        //     <Details
-        //         id={currentPerson}
-        //         type={currentType}
-        //     />
-        // )
+        const personDetails = (
+            <Details 
+                id={11}
+                type="people"
+                getData={APIService.getPerson}
+            />
+        )
+        const starshipDetails = (
+            <Details 
+                id={11}
+                type="starships"
+                getData={APIService.getStarship}
+            />
+        )
 
         return (
             <div>
                 <Header />
                 <div className="container">
-                    <RandomPlanet />
+                    
+                    <Row left={personDetails} right={starshipDetails} />
 
-                    <PeoplePage />
-
-                    {/* <div className="row">
-                        <div className="col-12 col-md-4">
-                            <List
-                                onItemClick={id => this.onSelection(id, 'planets')}
-                                getData={APIService.getAllPlanets}
-                                renderItem={({name, diameter}) => (<span>{name} (Diameter: {diameter}km)</span>)}
-                            />
-                            <List
-                                onItemClick={id => this.onSelection(id, 'starships')}
-                                getData={APIService.getAllStarships}
-                                renderItem={({name, model}) => (<span>{name} (Model: {model})</span>)}
-                            /> 
-                        </div>
-                        <div className="col-12 col-md-8">
-                            
-                        </div>
-                    </div> */}
                 </div>
             </div>
         )

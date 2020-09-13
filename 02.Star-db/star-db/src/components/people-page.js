@@ -38,6 +38,7 @@ export default class PeoplePage extends Component {
                 <Details
                     id={currentPerson}
                     type={currentType}
+                    getData={APIService.getPerson}
                 />
             </ErrorBoundry>
         )
