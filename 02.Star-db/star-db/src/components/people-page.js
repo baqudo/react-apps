@@ -3,8 +3,7 @@ import Header from '../header';
 import RandomPlanet from '../random-planet';
 import Details from '../details';
 import List from '../list';
-import { API, matchId } from '../../services';
-import './app.scss';
+import { API } from '../../services';
 import Row from '../row.js';
 
 const APIService = new API();
@@ -45,26 +44,7 @@ export default class App extends Component {
                 <Header />
                 <div className="container">
                     <RandomPlanet />
-
                     <Row left={peopleList} right={details}/>
-
-                    <div className="row">
-                        <div className="col-12 col-md-4">
-                            <List
-                                onItemClick={id => this.onSelection(id, 'planets')}
-                                getData={APIService.getAllPlanets}
-                                renderItem={({name, diameter}) => (<span>{name} (Diameter: {diameter}km)</span>)}
-                            />
-                            <List
-                                onItemClick={id => this.onSelection(id, 'starships')}
-                                getData={APIService.getAllStarships}
-                                renderItem={({name, model}) => (<span>{name} (Model: {model})</span>)}
-                            /> 
-                        </div>
-                        <div className="col-12 col-md-8">
-                            
-                        </div>
-                    </div>
                 </div>
             </div>
         )
