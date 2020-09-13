@@ -54,7 +54,7 @@ export default class Details extends Component {
         const imgPath = type === 'people' ? 'characters' : type;
         
         const children = React.Children.map(this.props.children, (child, idx) => {
-            return (<li>{idx}</li>);
+            return React.cloneElement(child, { item: details });
         })
 
         if(!id) {

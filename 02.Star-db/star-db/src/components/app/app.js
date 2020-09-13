@@ -33,7 +33,10 @@ export default class App extends Component {
                 type="people"
                 getData={APIService.getPerson}
             >
+                <Record field="birthYear" label="Birth Year"/>
                 <Record field="gender" label="Gender"/>
+                <Record field="height" label="Height"/>
+                <Record field="mass" label="Mass"/>
                 <Record field="eyeColor" label="Eye Color"/>
 
             </Details>
@@ -44,7 +47,14 @@ export default class App extends Component {
                 id={11}
                 type="starships"
                 getData={APIService.getStarship}
-            />
+                >
+        
+                <Record field="model" label="Model"/>
+                <Record field="length" label="Length"/>
+                <Record field="costInCredits" label="Cost"/>
+                <Record field="manufacturer" label="Manufacturer"/>
+            
+            </Details>
         )
 
         return (
