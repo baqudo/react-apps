@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { API, toDefaultText } from '../../services';
 import Spinner from '../spinner';
 import ErrorBtn from '../error-btn';
-
 import './details.scss';
 
 const APIService = new API();
+
 
 export default class Details extends Component {
 
@@ -52,7 +52,10 @@ export default class Details extends Component {
         const { details, loading } = this.state;
         const { id, type } = this.props;
         const imgPath = type === 'people' ? 'characters' : type;
-
+        
+        const children = React.Children.map(this.props.children, (child, idx) => {
+            return (<li>{idx}</li>);
+        })
 
         if(!id) {
             return ( 
@@ -62,7 +65,7 @@ export default class Details extends Component {
     
         return (
             <div className="details card mb-3">
-                { loading ? <Spinner /> : <DetailsView details={details} imgPath={imgPath}/> }
+                { loading ? <Spinner /> : <DetailsView details={details} imgPath={imgPath} body={children}/> }
 
                 <ErrorBtn />
             </div>
@@ -71,11 +74,10 @@ export default class Details extends Component {
 }
 
 
-const DetailsView = ({ details, imgPath }) => {
+const DetailsView = ({ details, body }) => {
     const { name, id, imgUrl, ...rest } = details;
     const keys = Object.keys(rest);
-    
-    console.log({ name, id, imgUrl });
+
     return (
         <React.Fragment>
             <h3 className="card-header">{ name }</h3>
@@ -87,14 +89,15 @@ const DetailsView = ({ details, imgPath }) => {
 
                     <div className="col-12 col-md-7">
                         <ul className="details__list list-group list-group-flush rounded">
-                            { keys.map(key => {
+                            { body }
+                            {/* { keys.map(key => {
                                 return (
                                     <li className="list-group-item d-flex justify-content-between" key={key}>
                                         <span className="label">{toDefaultText(key)}:</span>
                                         <span className="value">{details[key]}</span>
                                     </li>
                                 )
-                            })}
+                            })} */}
                         </ul>
                     </div>
                 </div>

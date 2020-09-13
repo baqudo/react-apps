@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Header from '../header';
 import RandomPlanet from '../random-planet';
-import Details from '../details';
+import Details, { Record } from '../details';
 import List from '../list';
 import { API, matchId } from '../../services';
 import './app.scss';
@@ -32,7 +32,12 @@ export default class App extends Component {
                 id={11}
                 type="people"
                 getData={APIService.getPerson}
-            />
+            >
+                <Record field="gender" label="Gender"/>
+                <Record field="eyeColor" label="Eye Color"/>
+
+            </Details>
+
         )
         const starshipDetails = (
             <Details 
