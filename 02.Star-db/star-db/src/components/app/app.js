@@ -61,7 +61,10 @@ export default class App extends Component {
             <div>
                 <Header />
                 <div className="container">
+                    <RandomPlanet />
                     
+                    <PeoplePage />
+
                     <Row left={personDetails} right={starshipDetails} />
 
                 </div>
