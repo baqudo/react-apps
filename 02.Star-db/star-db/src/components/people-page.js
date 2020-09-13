@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import Header from '../header';
-import RandomPlanet from '../random-planet';
-import Details from '../details';
-import List from '../list';
-import { API } from '../../services';
-import Row from '../row.js';
+import Details from './details';
+import List from './list';
+import { API } from '../services';
+import Row from './row.js';
+import ErrorBoundry from './error-boundry';
 
 const APIService = new API();
 
-export default class App extends Component {
+
+
+export default class PeoplePage extends Component {
 
     state = {
         currentPerson: null,
@@ -33,20 +34,16 @@ export default class App extends Component {
             />
         )
         const details = (
-            <Details
-                id={currentPerson}
-                type={currentType}
-            />
+            <ErrorBoundry>
+                <Details
+                    id={currentPerson}
+                    type={currentType}
+                />
+            </ErrorBoundry>
         )
 
         return (
-            <div>
-                <Header />
-                <div className="container">
-                    <RandomPlanet />
-                    <Row left={peopleList} right={details}/>
-                </div>
-            </div>
+            <Row left={peopleList} right={details}/>
         )
     } 
 }

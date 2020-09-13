@@ -25,8 +25,8 @@ export default class List extends Component {
 
     render() {
         const { items, loading } = this.state;
-        const { renderItem } = this.props;
-        
+        const renderItem = this.props.children || this.props.renderItem;
+        console.log({ renderItem});
         if (loading) return (<Spinner />);
 
         return (

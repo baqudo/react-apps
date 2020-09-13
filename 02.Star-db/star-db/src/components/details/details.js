@@ -19,15 +19,9 @@ export default class Details extends Component {
         }
     }
     
-    componentDidCatch() {
-        this.setState({
-            hasError: true
-        })
-    }
 
     state = {
         loading: true,
-        hasError: false,
         details: {}
     }
 
@@ -44,7 +38,6 @@ export default class Details extends Component {
 
     async updateDetails() {
         const {type, id} = this.props;
-        console.log({ type, id });
 
         const data = await APIService.get(`${type}/${id}`);
 
@@ -56,15 +49,10 @@ export default class Details extends Component {
 
 
     render() {
-        const { details, loading, hasError } = this.state;
+        const { details, loading } = this.state;
         const { id, type } = this.props;
         const imgPath = type === 'people' ? 'characters' : type;
 
-        if(hasError) {
-            return (
-                <div className="details card mb-3 p-3 text-danger">Oops, Error! D:</div>
-            )
-        }
 
         if(!id) {
             return ( 

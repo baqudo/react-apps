@@ -6,6 +6,7 @@ import List from '../list';
 import { API, matchId } from '../../services';
 import './app.scss';
 import Row from '../row.js';
+import PeoplePage from '../people-page';
 
 const APIService = new API();
 
@@ -26,19 +27,20 @@ export default class App extends Component {
     render() {
         const { currentPerson, currentType } = this.state;
 
-        const peopleList = (
-            <List
-                onItemClick={id => this.onSelection(id, 'people')}
-                getData={APIService.getAllPeople}
-                renderItem={({name, gender, birthYear}) => (<span>{name} ({gender}, {birthYear})</span>)}
-            />
-        )
-        const details = (
-            <Details
-                id={currentPerson}
-                type={currentType}
-            />
-        )
+        // const peopleList = (
+        //     <List
+        //         onItemClick={id => this.onSelection(id, 'people')}
+        //         getData={APIService.getAllPeople}
+        //     >
+        //         { (i) => (<span>{i.name} ({i.gender}, {i.birthYear})</span>) }
+        //     </List>
+        // )
+        // const details = (
+        //     <Details
+        //         id={currentPerson}
+        //         type={currentType}
+        //     />
+        // )
 
         return (
             <div>
@@ -46,9 +48,9 @@ export default class App extends Component {
                 <div className="container">
                     <RandomPlanet />
 
-                    <Row left={peopleList} right={details}/>
+                    <PeoplePage />
 
-                    <div className="row">
+                    {/* <div className="row">
                         <div className="col-12 col-md-4">
                             <List
                                 onItemClick={id => this.onSelection(id, 'planets')}
@@ -64,7 +66,7 @@ export default class App extends Component {
                         <div className="col-12 col-md-8">
                             
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         )
