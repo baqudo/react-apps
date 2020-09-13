@@ -3,6 +3,8 @@ import { API } from '../../services';
 import Spinner from '../spinner';
 import './random-planet.scss';
 
+const APIService = new API();
+
 export default class RandomPlanet extends Component {
     componentDidMount() {
         this.updatePlanet();
@@ -26,7 +28,7 @@ export default class RandomPlanet extends Component {
             rotationPeriod,
             orbitalPeriod,
             diameter
-        } = await API.get(`planets/${id}/`);
+        } = await APIService.get(`planets/${id}/`);
 
         this.setState({
             planet: {

@@ -5,15 +5,17 @@ import ErrorBtn from '../error-btn';
 
 import './details.scss';
 
+const APIService = new API();
+
 export default class Details extends Component {
 
     componentDidMount() {
-        this.updatePerson(this.props.currentPerson)
+        this.updateDetails()
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(this.props.currentPerson !== prevProps.currentPerson) {
-            this.updatePerson(this.props.currentPerson)
+        if(this.props.id !== prevProps.id) {
+            this.updateDetails()
         }
     }
     
@@ -24,47 +26,39 @@ export default class Details extends Component {
     }
 
     state = {
-        type: 'people',
         loading: true,
         hasError: false,
-        person: {}
+        details: {}
     }
 
-    async updatePerson(reqId) {
-        if (!reqId) return;
+    parseData(type) {
+        switch (type) {
+            case 'people':
+                
+                break;
+        
+            default:
+                break;
+        }
+    }
 
-        const {
-            id,
-            birthYear,
-            eyeColor,
-            gender,
-            hairColor,
-            height,
-            mass,
-            name,
-            skinColor
-        } = await API.get(`${this.state.type}/${reqId}`);
+    async updateDetails() {
+        const {type, id} = this.props;
+        console.log({ type, id });
+
+        const data = await APIService.get(`${type}/${id}`);
 
         this.setState({
             loading: false,
-            person: {
-                id,
-                birthYear,
-                eyeColor,
-                gender,
-                hairColor,
-                height,
-                mass,
-                name,
-                skinColor
-            }
+            details: data
         })
     }
 
 
     render() {
-        const { person, loading, hasError } = this.state;
-        const { currentPerson } = this.props;
+        const { details, loading, hasError } = this.state;
+        const { id, type } = this.props;
+        const imgPath = type === 'people' ? 'characters' : type;
 
         if(hasError) {
             return (
@@ -72,7 +66,7 @@ export default class Details extends Component {
             )
         }
 
-        if(!currentPerson) {
+        if(!id) {
             return ( 
                 <div className="details card mb-3 p-3">Please, choose a character</div>
             )
@@ -80,7 +74,7 @@ export default class Details extends Component {
     
         return (
             <div className="details card mb-3">
-                { loading ? <Spinner /> : <DetailsView person={person} /> }
+                { loading ? <Spinner /> : <DetailsView details={details} imgPath={imgPath}/> }
 
                 <ErrorBtn />
             </div>
@@ -89,16 +83,17 @@ export default class Details extends Component {
 }
 
 
-const DetailsView = ({ person }) => {
-    const { name, id, ...rest } = person;
+const DetailsView = ({ details, imgPath }) => {
+    const { name, id, ...rest } = details;
     const keys = Object.keys(rest);
+    
     return (
         <React.Fragment>
             <h3 className="card-header">{ name }</h3>
             <div className="card-body">
                 <div className="row">
                     <div className="col-12 col-md-5 details__img">
-                        <img className="rounded" src={`${process.env.REACT_APP_ASSETS_URL}/img/characters/${id}.jpg`} alt={name} />
+                        <img className="rounded" src={`${process.env.REACT_APP_ASSETS_URL}/img/${imgPath}/${id}.jpg`} alt={name} />
                     </div>
 
                     <div className="col-12 col-md-7">
@@ -107,7 +102,7 @@ const DetailsView = ({ person }) => {
                                 return (
                                     <li className="list-group-item d-flex justify-content-between" key={key}>
                                         <span className="label">{toDefaultText(key)}:</span>
-                                        <span className="value">{person[key]}</span>
+                                        <span className="value">{details[key]}</span>
                                     </li>
                                 )
                             })}

@@ -1,47 +1,46 @@
 import React, { Component } from 'react';
-import { API, matchId } from '../../services';
 import Spinner from '../spinner';
+import './list.scss'
 
 export default class List extends Component {
-    constructor() {
-        super();
-        this.init()
-    };
-
     state = {
         loading: true,
-        people: []
+        items: []
     }
 
+    componentDidMount() {
+        this.init();
+    }
+    
+
     async init() {
-        const data = await API.get('people');
-        const people = data.results.map(person => {
-            return {
-                ...person,
-                id: matchId(person.url)
-            }
-        });
+        const items = await this.props.getData();
 
         this.setState({
             loading: false,
-            people
+            items
         })
     }
 
 
     render() {
-        const { people, loading } = this.state;
+        const { items, loading } = this.state;
+        const { renderItem } = this.props;
+        
         if (loading) return (<Spinner />);
 
         return (
+
             <ul className="list-group list-group-flush rounded">
-                { people.map((person) => {
+                { items && items.map((item) => {
+                    const el = renderItem(item);
+                
                     return (
                         <li className="person-item list-group-item d-flex justify-content-between"
-                            key={person.id}
-                            onClick={() => this.props.onItemClick(person.id)}
+                            key={item.id}
+                            onClick={() => this.props.onItemClick(item.id)}
                         >
-                            <span className="label">{ person.name }</span>
+                            { el }
                         </li>
                     )
                 }) }

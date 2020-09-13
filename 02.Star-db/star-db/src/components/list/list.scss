@@ -1,3 +1,10 @@
+.list-group {
+  & + & {
+    margin-top: 1rem;
+  }
+}
+
 .person-item {
   cursor: pointer;
 }
+
