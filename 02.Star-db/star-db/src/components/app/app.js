@@ -17,7 +17,7 @@ export default class App extends Component {
     state = {
         currentPerson: 1,
         currentPlanet: 2,
-        currentStarship: 4
+        currentStarship: 6
     }
 
     onClick = (id, type) => {
@@ -36,9 +36,7 @@ export default class App extends Component {
 
                     <Row
                         left={
-                            <PeopleList onItemClick={id => this.onClick(id, 'currentPerson')}>
-                                {({name, gender, birthYear}) => (<span>{name} ({gender}, {birthYear})</span>)}
-                            </PeopleList>
+                            <PeopleList onItemClick={id => this.onClick(id, 'currentPerson')} />
                         }
                         right={
                             <PeopleDetails id={currentPerson} />
@@ -47,9 +45,7 @@ export default class App extends Component {
 
                     <Row
                         left={
-                            <PlanetsList onItemClick={id => this.onClick(id, 'currentPlanet')}>
-                                { ({ name }) => <span>{name}</span>}
-                            </PlanetsList>
+                            <PlanetsList onItemClick={id => this.onClick(id, 'currentPlanet')} />
                         }
                         right={
                             <PlanetsDetails id={currentPlanet} />
@@ -59,9 +55,7 @@ export default class App extends Component {
 
                     <Row
                         left={
-                            <StarshipsList onItemClick={id => this.onClick(id, 'currentStarship')}>
-                                { ({ name }) => <span>{name}</span>}
-                            </StarshipsList>
+                            <StarshipsList onItemClick={id => this.onClick(id, 'currentStarship')} />
                         }
                         right={
                             <StarshipsDetails id={currentStarship} />
