@@ -1,4 +1,4 @@
-import DataWrapper from './dataWrapper';
+import dataWrapper from './dataWrapper';
 export {
-  DataWrapper
+  dataWrapper
 };

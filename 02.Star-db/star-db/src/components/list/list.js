@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
-import { API } from '../../services';
-import { DataWrapper } from '../hoc-helpers'
+import React from 'react';
 import './list.scss'
 
 const List = (props) => {
     const { items, onItemClick } = props;
-    const renderItem = props.children || props.renderItem;
+    const renderItem = props.children;
 
     return (
         <ul className="list-group list-group-flush rounded">
@@ -25,6 +23,4 @@ const List = (props) => {
     )
 }
 
-const { getAllPeople } = new API();
-
-export default DataWrapper(List, getAllPeople);
+export default List;

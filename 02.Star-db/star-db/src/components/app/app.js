@@ -1,71 +1,73 @@
 import React, { Component } from 'react';
 import Header from '../header';
-import RandomPlanet from '../random-planet';
-import Details, { Record } from '../details';
-import List from '../list';
-import { API, matchId } from '../../services';
 import './app.scss';
 import Row from '../row.js';
-import PeoplePage from '../people-page';
 
-const APIService = new API();
+import {
+  PeopleList,
+  PlanetsList,
+  StarshipsList,
+  PeopleDetails,
+  PlanetsDetails,
+  StarshipsDetails
+} from '../sw-components';
 
 export default class App extends Component {
 
     state = {
-        currentPerson: null,
-        currentType: null
+        currentPerson: 1,
+        currentPlanet: 2,
+        currentStarship: 4
     }
 
-    onSelection = (id, type) => {
+    onClick = (id, type) => {
         this.setState({
-            currentPerson: id,
-            currentType: type
+            [type]: id,
         })
     }
 
     render() {
-        const { currentPerson, currentType } = this.state;
-
-        const personDetails = (
-            <Details 
-                id={11}
-                type="people"
-                getData={APIService.getPerson}
-            >
-                <Record field="birthYear" label="Birth Year"/>
-                <Record field="gender" label="Gender"/>
-                <Record field="height" label="Height"/>
-                <Record field="mass" label="Mass"/>
-                <Record field="eyeColor" label="Eye Color"/>
-
-            </Details>
-
-        )
-        const starshipDetails = (
-            <Details 
-                id={11}
-                type="starships"
-                getData={APIService.getStarship}
-                >
-        
-                <Record field="model" label="Model"/>
-                <Record field="length" label="Length"/>
-                <Record field="costInCredits" label="Cost"/>
-                <Record field="manufacturer" label="Manufacturer"/>
-            
-            </Details>
-        )
+        const { currentPerson, currentPlanet, currentStarship } = this.state;
 
         return (
             <div>
                 <Header />
                 <div className="container">
-                    <RandomPlanet />
-                    
-                    <PeoplePage />
 
-                    <Row left={personDetails} right={starshipDetails} />
+                    <Row
+                        left={
+                            <PeopleList onItemClick={id => this.onClick(id, 'currentPerson')}>
+                                {({name, gender, birthYear}) => (<span>{name} ({gender}, {birthYear})</span>)}
+                            </PeopleList>
+                        }
+                        right={
+                            <PeopleDetails id={currentPerson} />
+                        }
+                    />
+
+                    <Row
+                        left={
+                            <PlanetsList onItemClick={id => this.onClick(id, 'currentPlanet')}>
+                                { ({ name }) => <span>{name}</span>}
+                            </PlanetsList>
+                        }
+                        right={
+                            <PlanetsDetails id={currentPlanet} />
+                        }
+                    />
+                    
+
+                    <Row
+                        left={
+                            <StarshipsList onItemClick={id => this.onClick(id, 'currentStarship')}>
+                                { ({ name }) => <span>{name}</span>}
+                            </StarshipsList>
+                        }
+                        right={
+                            <StarshipsDetails id={currentStarship} />
+                        }
+                    />
+                    
 
                 </div>
             </div>
