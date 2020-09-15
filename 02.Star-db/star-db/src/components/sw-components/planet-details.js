@@ -1,29 +1,21 @@
 import React from 'react';
 import Details, { Record } from '../details';
-import { APIConsumer } from '../api-context';
+import { withApiService } from '../hoc-helpers';
 
-const PlanetsDetails = ({ id }) => {
+const PlanetsDetails = (props) => {
   return (
-    <APIConsumer>
-      {
-        ({ getPlanet }) => {
-          return (
-            <Details 
-              id={id}
-              type="planets"
-              getData={getPlanet}
-              >
-        
-              <Record field="diameter" label="Diameter"/>
-              <Record field="population" label="Population"/>
-        
-            </Details>
-          )
-        }
-      }
-    </APIConsumer>
+    <Details {...props}>
+      <Record field="diameter" label="Diameter"/>
+      <Record field="population" label="Population"/>
+    </Details>
   )
 };
 
 
-export default PlanetsDetails;
+const mapMethodsToProps = (apiService) => {
+  return {
+    getData: apiService.getPlanet
+  }
+}
+
+export default withApiService(PlanetsDetails, mapMethodsToProps);

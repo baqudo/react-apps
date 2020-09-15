@@ -1,6 +1,6 @@
-import dataWrapper from './dataWrapper';
+import withData from './with-data';
 import withApiService from './with-api-service';
 export {
-  dataWrapper,
+  withData,
   withApiService
 };

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Spinner from '../spinner';
 import ErrorBoundary from '../error-boundry';
 
-const dataWrapper = (View, getData) => {
+const withData = (View) => {
     return class extends Component {
         state = {
             loading: true,
@@ -15,7 +15,7 @@ const dataWrapper = (View, getData) => {
         
     
         async init() {
-            const items = await getData();
+            const items = await this.props.getData();
     
             this.setState({
                 loading: false,
@@ -37,4 +37,4 @@ const dataWrapper = (View, getData) => {
     };
 };
 
-export default dataWrapper;
+export default withData;
