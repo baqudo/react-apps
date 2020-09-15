@@ -3,7 +3,7 @@ import Header from '../header';
 import './app.scss';
 import Row from '../row.js';
 import ErrorBoundry from '../error-boundry';
-import { API } from '../../services';
+import { API, DummySwapiService } from '../../services';
 import { APIProvider } from '../api-context';
 
 import {
@@ -15,14 +15,13 @@ import {
   StarshipsDetails
 } from '../sw-components';
 
-const APIService = new API();
-
 export default class App extends Component {
 
     state = {
         currentPerson: 1,
         currentPlanet: 2,
-        currentStarship: 6
+        currentStarship: 6,
+        apiService: new API()
     }
 
     onClick = (id, type) => {
@@ -31,13 +30,26 @@ export default class App extends Component {
         })
     }
 
+    onServiceChange = () => {
+        this.setState(({ apiService }) => {
+            const Service = apiService instanceof API ? DummySwapiService : API
+
+            console.log('service changed to: ', Service.name);
+
+            return {
+                apiService: new Service()
+            }
+        })
+        console.log('Change context');
+    }
+
     render() {
         const { currentPerson, currentPlanet, currentStarship } = this.state;
 
         return (
             <ErrorBoundry>
-                <APIProvider value={APIService} >
-                    <Header />
+                <APIProvider value={this.state.apiService} >
+                    <Header onServiceChange={this.onServiceChange}/>
                     <div className="container">
 
                         <Row

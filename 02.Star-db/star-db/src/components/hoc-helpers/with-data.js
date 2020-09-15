@@ -10,11 +10,16 @@ const withData = (View) => {
         }
     
         componentDidMount() {
-            this.init();
+            this.update();
         }
         
+        componentDidUpdate(prevProps) {
+            if (this.props.getData !== prevProps.getData) {
+                this.update();
+            }
+        }
     
-        async init() {
+        async update() {
             const items = await this.props.getData();
     
             this.setState({

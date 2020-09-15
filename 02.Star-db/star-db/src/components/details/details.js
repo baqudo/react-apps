@@ -14,7 +14,7 @@ export default class Details extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(this.props.id !== prevProps.id) {
+        if(this.props.id !== prevProps.id || this.props.getData !== prevProps.getData) {
             this.updateDetails()
         }
     }

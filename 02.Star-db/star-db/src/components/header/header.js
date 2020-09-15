@@ -2,7 +2,7 @@ import React from 'react';
 
 import './header.scss';
 
-const Header = () => {
+const Header = ({ onServiceChange }) => {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <a className="navbar-brand" href="/">Star DB</a>
@@ -23,6 +23,11 @@ const Header = () => {
                     </li>
                 </ul>
             </div>
+
+            <button
+                onClick={onServiceChange}
+                className="btn btn-danger btn-sm"
+            >Change service</button>
         </nav>
     )
 }
