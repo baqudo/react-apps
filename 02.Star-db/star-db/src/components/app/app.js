@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import Header from '../header';
 import './app.scss';
 import Row from '../row.js';
+import ErrorBoundry from '../error-boundry';
+import { API } from '../../services';
+import { APIProvider } from '../api-context';
 
 import {
   PeopleList,
@@ -11,6 +14,8 @@ import {
   PlanetsDetails,
   StarshipsDetails
 } from '../sw-components';
+
+const APIService = new API();
 
 export default class App extends Component {
 
@@ -30,41 +35,43 @@ export default class App extends Component {
         const { currentPerson, currentPlanet, currentStarship } = this.state;
 
         return (
-            <div>
-                <Header />
-                <div className="container">
+            <ErrorBoundry>
+                <APIProvider value={APIService} >
+                    <Header />
+                    <div className="container">
 
-                    <Row
-                        left={
-                            <PeopleList onItemClick={id => this.onClick(id, 'currentPerson')} />
-                        }
-                        right={
-                            <PeopleDetails id={currentPerson} />
-                        }
-                    />
+                        <Row
+                            left={
+                                <PeopleList onItemClick={id => this.onClick(id, 'currentPerson')} />
+                            }
+                            right={
+                                <PeopleDetails id={currentPerson} />
+                            }
+                        />
 
-                    <Row
-                        left={
-                            <PlanetsList onItemClick={id => this.onClick(id, 'currentPlanet')} />
-                        }
-                        right={
-                            <PlanetsDetails id={currentPlanet} />
-                        }
-                    />
-                    
+                        <Row
+                            left={
+                                <PlanetsList onItemClick={id => this.onClick(id, 'currentPlanet')} />
+                            }
+                            right={
+                                <PlanetsDetails id={currentPlanet} />
+                            }
+                        />
+                        
 
-                    <Row
-                        left={
-                            <StarshipsList onItemClick={id => this.onClick(id, 'currentStarship')} />
-                        }
-                        right={
-                            <StarshipsDetails id={currentStarship} />
-                        }
-                    />
-                    
+                        <Row
+                            left={
+                                <StarshipsList onItemClick={id => this.onClick(id, 'currentStarship')} />
+                            }
+                            right={
+                                <StarshipsDetails id={currentStarship} />
+                            }
+                        />
+                        
 
-                </div>
-            </div>
+                    </div>
+                </APIProvider>
+            </ErrorBoundry>
         )
     } 
 }
