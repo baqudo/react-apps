@@ -18,4 +18,4 @@ const mapMethodsToProps = (apiService) => {
   }
 }
 
-export default withApiService(PlanetsDetails, mapMethodsToProps);
+export default withApiService(mapMethodsToProps)(PlanetsDetails);

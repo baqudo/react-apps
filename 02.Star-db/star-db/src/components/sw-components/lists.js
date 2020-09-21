@@ -1,16 +1,6 @@
 import React from 'react';
 import List from '../list';
-import { withData, withApiService } from '../hoc-helpers';
-
-const withChildrenFunc = (Wrapped, fn) => {
-  return (props) => {
-    return (
-      <Wrapped {...props}>
-        {fn}
-      </Wrapped>
-    )
-  }
-}
+import { withData, withApiService, withChildrenFunc, compose } from '../hoc-helpers';
 
 const peopleChildren =  ({name, gender, birthYear}) => (<span>{name} ({gender}, {birthYear})</span>);
 const renderName = ({ name }) => <span>{name}</span>;
@@ -34,20 +24,23 @@ const mapStarshipsMethodsToProps = (apiService) => {
   }
 };
 
-const PeopleList = withApiService(
-  withData(withChildrenFunc(List, peopleChildren)),
-  mapPeopleMethodsToProps
-);
+const PeopleList = compose(
+  withApiService(mapPeopleMethodsToProps),
+  withData,
+  withChildrenFunc(peopleChildren)
+)(List);
 
-const PlanetsList = withApiService(
-  withData(withChildrenFunc(List, renderName)),
-  mapPlanetsMethodsToProps
-);
+const PlanetsList = compose(
+  withApiService(mapPlanetsMethodsToProps),
+  withData,
+  withChildrenFunc(renderName)
+)(List);
 
-const StarshipsList = withApiService(
-  withData(withChildrenFunc(List, renderNameAndModel)),
-  mapStarshipsMethodsToProps
-)
+const StarshipsList = compose(
+  withApiService(mapStarshipsMethodsToProps),
+  withData,
+  withChildrenFunc(renderNameAndModel)
+)(List);
 
 export {
   PeopleList,

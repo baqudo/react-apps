@@ -20,4 +20,4 @@ const mapMethodsToProps = (apiService) => {
   }
 }
 
-export default withApiService(PeopleDetails, mapMethodsToProps);
+export default withApiService(mapMethodsToProps)(PeopleDetails);
