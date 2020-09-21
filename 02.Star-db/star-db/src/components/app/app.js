@@ -1,33 +1,20 @@
 import React, { Component } from 'react';
 import Header from '../header';
-import './app.scss';
-import Row from '../row.js';
+import RandomPlanet from '../random-planet';
 import ErrorBoundry from '../error-boundry';
 import { API, DummySwapiService } from '../../services';
 import { APIProvider } from '../api-context';
-
+import './app.scss';
 import {
-  PeopleList,
-  PlanetsList,
-  StarshipsList,
-  PeopleDetails,
-  PlanetsDetails,
-  StarshipsDetails
-} from '../sw-components';
+    PeoplePage,
+    PlanetsPage,
+    StarshipsPage
+} from '../pages';
 
 export default class App extends Component {
 
     state = {
-        currentPerson: 1,
-        currentPlanet: 2,
-        currentStarship: 6,
         apiService: new API()
-    }
-
-    onClick = (id, type) => {
-        this.setState({
-            [type]: id,
-        })
     }
 
     onServiceChange = () => {
@@ -44,42 +31,20 @@ export default class App extends Component {
     }
 
     render() {
-        const { currentPerson, currentPlanet, currentStarship } = this.state;
-
         return (
             <ErrorBoundry>
                 <APIProvider value={this.state.apiService} >
                     <Header onServiceChange={this.onServiceChange}/>
+
                     <div className="container">
 
-                        <Row
-                            left={
-                                <PeopleList onItemClick={id => this.onClick(id, 'currentPerson')} />
-                            }
-                            right={
-                                <PeopleDetails id={currentPerson} />
-                            }
-                        />
+                        <RandomPlanet /> 
 
-                        <Row
-                            left={
-                                <PlanetsList onItemClick={id => this.onClick(id, 'currentPlanet')} />
-                            }
-                            right={
-                                <PlanetsDetails id={currentPlanet} />
-                            }
-                        />
-                        
+                        <PeoplePage /> 
 
-                        <Row
-                            left={
-                                <StarshipsList onItemClick={id => this.onClick(id, 'currentStarship')} />
-                            }
-                            right={
-                                <StarshipsDetails id={currentStarship} />
-                            }
-                        />
-                        
+                        <PlanetsPage />
+
+                        <StarshipsPage />
 
                     </div>
                 </APIProvider>

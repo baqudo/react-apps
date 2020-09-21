@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
-import { API, toDefaultText } from '../../services';
 import Spinner from '../spinner';
 import ErrorBtn from '../error-btn';
 import './details.scss';
-
-const APIService = new API();
-
 
 export default class Details extends Component {
 
@@ -13,7 +9,7 @@ export default class Details extends Component {
         this.updateDetails()
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         if(this.props.id !== prevProps.id || this.props.getData !== prevProps.getData) {
             this.updateDetails()
         }
@@ -25,22 +21,12 @@ export default class Details extends Component {
         details: {}
     }
 
-    parseData(type) {
-        switch (type) {
-            case 'people':
-                
-                break;
-        
-            default:
-                break;
-        }
-    }
-
     async updateDetails() {
-        const {type, id, getData} = this.props;
+        const {id, getData} = this.props;
+        if (!id || !getData) return;
 
-        const data = getData ? await getData(id) : await APIService.get(`${type}/${id}`);
-        console.log({ data });
+        const data = await getData(id);
+
         this.setState({
             loading: false,
             details: data
@@ -50,10 +36,9 @@ export default class Details extends Component {
 
     render() {
         const { details, loading } = this.state;
-        const { id, type } = this.props;
-        const imgPath = type === 'people' ? 'characters' : type;
-        
-        const children = React.Children.map(this.props.children, (child, idx) => {
+        const { id } = this.props;
+
+        const children = React.Children.map(this.props.children, (child) => {
             return React.cloneElement(child, { item: details });
         })
 
@@ -65,7 +50,7 @@ export default class Details extends Component {
     
         return (
             <div className="details card mb-3">
-                { loading ? <Spinner /> : <DetailsView details={details} imgPath={imgPath} body={children}/> }
+                { loading ? <Spinner /> : <DetailsView details={details} body={children}/> }
 
                 <ErrorBtn />
             </div>
@@ -75,8 +60,7 @@ export default class Details extends Component {
 
 
 const DetailsView = ({ details, body }) => {
-    const { name, id, imgUrl, ...rest } = details;
-    const keys = Object.keys(rest);
+    const { name, imgUrl } = details;
 
     return (
         <React.Fragment>
@@ -90,14 +74,6 @@ const DetailsView = ({ details, body }) => {
                     <div className="col-12 col-md-7">
                         <ul className="details__list list-group list-group-flush rounded">
                             { body }
-                            {/* { keys.map(key => {
-                                return (
-                                    <li className="list-group-item d-flex justify-content-between" key={key}>
-                                        <span className="label">{toDefaultText(key)}:</span>
-                                        <span className="value">{details[key]}</span>
-                                    </li>
-                                )
-                            })} */}
                         </ul>
                     </div>
                 </div>
