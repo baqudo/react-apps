@@ -6,9 +6,13 @@ import './random-planet.scss';
 const APIService = new API();
 
 export default class RandomPlanet extends Component {
+    static defaultProps = {
+        updateInterval: 10000
+    }
+
     componentDidMount() {
         this.updatePlanet();
-        this.interval = setInterval(this.updatePlanet, 10000);
+        this.interval = setInterval(this.updatePlanet, this.props.updateInterval);
     }
 
     componentWillUnmount() {
