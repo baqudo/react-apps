@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './list.scss'
 
 const List = (props) => {
@@ -21,6 +22,16 @@ const List = (props) => {
             }) }
         </ul>
     )
+}
+
+List.defaultProps = {
+    onItemClick: () => {}
+};
+
+List.propTypes = {
+    onItemClick: PropTypes.func,
+    data: PropTypes.arrayOf(PropTypes.object).isRequired,
+    children: PropTypes.func.isRequired
 }
 
 export default List;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { API } from '../../services';
 import Spinner from '../spinner';
 import './random-planet.scss';
@@ -10,14 +11,7 @@ export default class RandomPlanet extends Component {
         updateInterval: 10000
     }
     static propTypes = {
-        updateInterval: (props, propName, componentName) => {
-            const val = props[propName];
-            if (typeof val === 'number' && !isNaN(val)) {
-                return null;
-            }
-
-            return new TypeError(`${componentName}: ${propName} must be number`)
-        }
+        updateInterval: PropTypes.number
     }
 
     componentDidMount() {
