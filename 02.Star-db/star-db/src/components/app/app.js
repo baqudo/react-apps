@@ -10,6 +10,10 @@ import {
     PlanetsPage,
     StarshipsPage
 } from '../pages';
+import {
+    PlanetsDetails,
+    StarshipsDetails
+} from '../sw-components';
 
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
@@ -48,14 +52,43 @@ export default class App extends Component {
                                 render={() => (<h2>Welcome to StarDB</h2>)}
                                 exact
                             />
+                            
                             <Route
                                 path="/people"
                                 render={() => (<h2>People</h2>)}
                                 exact
                             />
                             <Route path="/people" component={PeoplePage} />
-                            <Route path="/planets" component={PlanetsPage} />
-                            <Route path="/starships" component={StarshipsPage} />
+
+                            <Route
+                                path="/planets"
+                                exact
+                                component={PlanetsPage}
+                            />
+                            <Route
+                                path="/planets/:id"
+                                render={
+                                    ({ match }) => {
+                                        const { id } = match.params;
+                                        return <PlanetsDetails id={id} />
+                                    }
+                                }
+                            />
+
+                            <Route
+                                path="/starships"
+                                exact
+                                component={StarshipsPage}
+                            />
+                            <Route
+                                path="/starships/:id"
+                                render={
+                                    ({ match }) => {
+                                        const { id } = match.params;
+                                        return <StarshipsDetails id={id} />
+                                    }
+                                }
+                            />
 
                         </div>
                     </Router>
