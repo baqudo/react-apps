@@ -6,9 +6,11 @@ import { API, DummySwapiService } from '../../services';
 import { APIProvider } from '../api-context';
 import './app.scss';
 import {
+    LoginPage,
     PeoplePage,
     PlanetsPage,
-    StarshipsPage
+    StarshipsPage,
+    SecretPage
 } from '../pages';
 import {
     PlanetsDetails,
@@ -20,8 +22,15 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 export default class App extends Component {
 
     state = {
-        apiService: new API()
+        apiService: new API(),
+        isLoggedIn: false
     }
+
+    onLogin = () => {
+        this.setState({
+            isLoggedIn: true
+        });
+    };
 
     onServiceChange = () => {
         this.setState(({ apiService }) => {
@@ -37,6 +46,8 @@ export default class App extends Component {
     }
 
     render() {
+        const { isLoggedIn } = this.state;
+
         return (
             <ErrorBoundry>
                 <APIProvider value={this.state.apiService} >
@@ -88,6 +99,22 @@ export default class App extends Component {
                                         return <StarshipsDetails id={id} />
                                     }
                                 }
+                            />
+
+                            <Route
+                                path="/login"
+                                render={({ match }) => (
+                                    <LoginPage
+                                        isLoggedIn={isLoggedIn}
+                                        onLogin={this.onLogin}
+                                    />
+                                )}
+                            />
+                            <Route
+                                path="/secret"
+                                render={({ match }) => (
+                                    <SecretPage isLoggedIn={isLoggedIn} />
+                                )}
                             />
 
                         </div>
