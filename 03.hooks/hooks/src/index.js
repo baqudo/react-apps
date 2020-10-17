@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 
 const App = () => {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(1);
   const [isVisible, setVisibility] = useState(true);
 
   return (
@@ -15,40 +15,27 @@ const App = () => {
         : <button onClick={() => setVisibility(true)}>show</button>
       }
 
-      {isVisible ? <HookCounter value={value}/> : null}
-
-      {isVisible ? <Notification value={value}/> : null}
+      <PlanetInfo id={value}/>
     </div>
   )
 };
 
-const HookCounter = ({ value }) => {
-  useEffect(() => {
-    console.log('onMount');
-    return () => console.log('onUnmount');
-  }, []);
+const PlanetInfo = ({ id }) => {
+  const [name, setName] = useState('Planet name');
 
-  useEffect(() => console.log('onUpdate'));
+  useEffect(() => {
+    let cancelled = false;
+
+    fetch(`https://swapi.dev/api/planets/${id}`)
+      .then(res => res.json())
+      .then(data => !cancelled && setName(data.name));
+
+    return () => cancelled = true;
+  }, [ id ]);
 
   return (
-    <p>{ value }</p>
+    <div>{id} - {name}</div>
   )
-};
-
-const Notification = () => {
-  const [isVisible, setVisibility] = useState(true);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => setVisibility(false), 1500)
-
-    return () => clearTimeout(timeout);
-  }, []);
-
-  return isVisible
-    ? (
-      <div><p>Notification</p></div>
-    )
-    : null;
 };
 
 ReactDOM.render(
