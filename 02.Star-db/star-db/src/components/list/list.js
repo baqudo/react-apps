@@ -30,7 +30,7 @@ List.defaultProps = {
 
 List.propTypes = {
     onItemClick: PropTypes.func,
-    data: PropTypes.arrayOf(PropTypes.object).isRequired,
+    data: PropTypes.arrayOf(PropTypes.object),
     children: PropTypes.func.isRequired
 }
 
