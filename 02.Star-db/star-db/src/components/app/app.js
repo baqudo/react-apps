@@ -11,6 +11,8 @@ import {
     StarshipsPage
 } from '../pages';
 
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+
 export default class App extends Component {
 
     state = {
@@ -34,19 +36,19 @@ export default class App extends Component {
         return (
             <ErrorBoundry>
                 <APIProvider value={this.state.apiService} >
-                    <Header onServiceChange={this.onServiceChange}/>
+                    <Router>
+                        <Header onServiceChange={this.onServiceChange}/>
 
-                    <div className="container">
+                        <div className="container">
 
-                        <RandomPlanet /> 
+                            <RandomPlanet /> 
 
-                        <PeoplePage /> 
+                            <Route path="/people" component={PeoplePage} />
+                            <Route path="/planets" component={PlanetsPage} />
+                            <Route path="/starships" component={StarshipsPage} />
 
-                        <PlanetsPage />
-
-                        <StarshipsPage />
-
-                    </div>
+                        </div>
+                    </Router>
                 </APIProvider>
             </ErrorBoundry>
         )
