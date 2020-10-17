@@ -1,11 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import './header.scss';
 
 const Header = ({ onServiceChange }) => {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a className="navbar-brand" href="/">Star DB</a>
+            <Link className="navbar-brand" to="/">Star DB</Link>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button>
@@ -13,13 +14,13 @@ const Header = ({ onServiceChange }) => {
             <div className="collapse navbar-collapse" id="navbarMenu">
                 <ul className="navbar-nav mr-auto">
                     <li className="nav-item">
-                        <a className="nav-link" href="/people">People</a>
+                        <Link className="nav-link" to="/people">People</Link>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="/planets">Planets</a>
+                        <Link className="nav-link" to="/planets">Planets</Link>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="/starships">Starships</a>
+                        <Link className="nav-link" to="/starships">Starships</Link>
                     </li>
                 </ul>
             </div>
